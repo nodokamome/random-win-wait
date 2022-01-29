@@ -1,50 +1,30 @@
 import { useEffect, useRef } from 'react'
+import { Val } from "../type/Common"
 
 type ResultBoxProps = {
-  hasStartRandom: boolean
+  resultData: Val[]
+  setResultData: (val: any) => void
 }
 
-const ResultBox: React.VFC<ResultBoxProps> = ({ hasStartRandom }) => {
-  const renderFlgRef = useRef(false)
-
-  useEffect(() => {
-    if (renderFlgRef.current) {
-      renderFlgRef.current = false;
-      return;
+const ResultBox: React.VFC<ResultBoxProps> = ({ resultData, setResultData }) => {
+  const resetResult = () => {
+    if (confirm('結果をリセットしますか？')) {
+      setResultData(null)
     }
-
-    if (hasStartRandom === false) console.log(localStorage.getItem('random-win-wait'))
-  }, [hasStartRandom])
-  const results = [
-    {
-      id: 1,
-      probability: '1 / 99',
-      tryTimes: 1000,
-      result: '当たり',
-    },
-    {
-      id: 2,
-      probability: '1 / 99',
-      tryTimes: 1000,
-      result: '当たり',
-    },
-    {
-      id: 3,
-      probability: '1 / 99',
-      tryTimes: 1000,
-      result: '当たり',
-    },
-    {
-      id: 4,
-      probability: '1 / 99',
-      tryTimes: 1000,
-      result: '当たり',
-    },
-  ]
+  }
 
   return (
     <div className="flex-1 flex-col">
       <div className="shadow border-b border-gray-200 sm:rounded-lg">
+        <div className='text-right'>
+          <button
+            className=' text-sm bg-blue-500 hover:bg-blue-400 active:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300 text-white py-2 my-3 px-4 rounded'
+            type="button"
+            onClick={resetResult}
+          >
+            結果リセット
+          </button>
+        </div>
         <table className="min-w-full divide-y divide-gray-200 table-auto overflow-hidden">
           <thead className="bg-gray-50">
             <tr>
@@ -75,7 +55,7 @@ const ResultBox: React.VFC<ResultBoxProps> = ({ hasStartRandom }) => {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {results.map((result) => (
+            {resultData?.map((result) => (
               <tr key={result.id}>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span className="text-sm">{result.id}</span>
@@ -87,9 +67,18 @@ const ResultBox: React.VFC<ResultBoxProps> = ({ hasStartRandom }) => {
                   <span className="text-sm">{result.tryTimes}</span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-500 text-yellow-50">
-                    {result.result}
-                  </span>
+                  {(() => {
+                    if (result.result === '当たり') {
+                      return <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-500 text-yellow-50">
+                        {result.result}
+                      </span>
+                    }
+                    else if (result.result === 'キャンセル') {
+                      return <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-400 text-yellow-50">
+                        {result.result}
+                      </span>
+                    }
+                  })()}
                 </td>
               </tr>
             ))}

@@ -1,7 +1,6 @@
 import { useState } from "react"
-import { Val } from "../type/Common"
 
-const usePersist = ((key: string, initVal: Val | undefined | null) => {
+const usePersist = ((key: string, initVal: any) => {
   const value = () => {
     try {
       const item = localStorage.getItem(key)
@@ -12,7 +11,7 @@ const usePersist = ((key: string, initVal: Val | undefined | null) => {
     }
   }
 
-  const setValue = (val: Val) => {
+  const setValue = (val: any) => {
     try {
       setSavedValue(val)
       localStorage.setItem(key, JSON.stringify(val))
@@ -21,7 +20,7 @@ const usePersist = ((key: string, initVal: Val | undefined | null) => {
     }
   }
 
-  const [savedValue, setSavedValue] = useState<Val>(value)
+  const [savedValue, setSavedValue] = useState<any>(value)
   return [savedValue, setValue]
 })
 

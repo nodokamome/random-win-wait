@@ -1,12 +1,19 @@
 import { useEffect, useState, useRef, Dispatch, SetStateAction } from "react";
-import saveLocalStorage from "../utils/SaveLocalStorage"
+import { Val } from "../type/Common"
 
 type RandomFormProps = {
   hasStartRandom: boolean
   setHasStartedRandom: Dispatch<SetStateAction<boolean>>
+  resultData: Val[]
+  setResultData: (val: any) => void
 }
 
-const RandomForm: React.VFC<RandomFormProps> = ({ hasStartRandom, setHasStartedRandom }) => {
+const RandomForm: React.VFC<RandomFormProps> = ({
+  hasStartRandom,
+  setHasStartedRandom,
+  resultData,
+  setResultData
+}) => {
   const [tryTimes, setTryTimes] = useState<number>(0)
   const [hasWinningRandom, setHasWinningRandom] = useState<boolean>(false)
   const [totalRandomWins, setTotalTandomWins] = useState<number>(1)
@@ -20,11 +27,28 @@ const RandomForm: React.VFC<RandomFormProps> = ({ hasStartRandom, setHasStartedR
       setHasWinningRandom(false)
     } else {
       if (hasStartRandom) {
-        saveLocalStorage({
-          probability: `${totalRandomWins} / ${totalRandom}`,
-          tryTimes: tryTimes + 1,
-          result: 'キャンセル'
-        })
+        const result = (() => {
+          if (resultData) {
+            return [
+              ...resultData,
+              {
+                id: resultData.length + 1,
+                probability: `${totalRandomWins} / ${totalRandom}`,
+                tryTimes: tryTimes + 1,
+                result: 'キャンセル'
+              }]
+          } else {
+            return [
+              {
+                id: 1,
+                probability: `${totalRandomWins} / ${totalRandom}`,
+                tryTimes: tryTimes + 1,
+                result: 'キャンセル'
+              }
+            ]
+          }
+        })()
+        setResultData(result)
       }
       setTryTimes(0)
     }
@@ -75,11 +99,28 @@ const RandomForm: React.VFC<RandomFormProps> = ({ hasStartRandom, setHasStartedR
   // 当たりのときにlocalStorageに保存する
   useEffect(() => {
     if (tryTimes > 0) {
-      saveLocalStorage({
-        probability: `${totalRandomWins} / ${totalRandom}`,
-        tryTimes: tryTimes + 1,
-        result: '当たり'
-      })
+      const result = (() => {
+        if (resultData) {
+          return [
+            ...resultData,
+            {
+              id: resultData.length + 1,
+              probability: `${totalRandomWins} / ${totalRandom}`,
+              tryTimes: tryTimes + 1,
+              result: '当たり'
+            }]
+        } else {
+          return [
+            {
+              id: 1,
+              probability: `${totalRandomWins} / ${totalRandom}`,
+              tryTimes: tryTimes + 1,
+              result: '当たり'
+            }
+          ]
+        }
+      })()
+      setResultData(result)
     }
   }, [hasWinningRandom])
 
