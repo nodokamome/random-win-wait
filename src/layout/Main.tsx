@@ -3,7 +3,6 @@ import { useState } from 'react'
 import RandomForm from '../components/RandomForm'
 import ResultBox from '../components/ResultBox'
 import usePersist from '../hooks/usePersist'
-import { Val } from '../type/Common'
 
 const Main: NextPage = () => {
   const [hasStartRandom, setHasStartedRandom] = useState<boolean>(false)
