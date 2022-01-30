@@ -19,6 +19,7 @@ const RandomForm: React.VFC<RandomFormProps> = ({
   const [totalRandomWins, setTotalTandomWins] = useState<number>(1)
   const [totalRandom, setTotalRandom] = useState<number>(100)
   const [winningRate, setWinningRate] = useState<number>(0)
+  const [canPushButton, setCanPushButton] = useState<boolean>(true)
   const renderFlgRef = useRef(false)
 
   const switchRandomStart = () => {
@@ -91,7 +92,15 @@ const RandomForm: React.VFC<RandomFormProps> = ({
 
   // 当選割合を算出
   useEffect(() => {
-    const rate = (1 / (totalRandom / totalRandomWins)) * 100
+    const rate = (() => {
+      if (totalRandom && totalRandomWins) {
+        setCanPushButton(true)
+        return (1 / (totalRandom / totalRandomWins)) * 100
+      } else {
+        setCanPushButton(false)
+        return 0
+      }
+    })()
 
     setWinningRate(rate)
   }, [totalRandomWins, totalRandom])
@@ -151,18 +160,20 @@ const RandomForm: React.VFC<RandomFormProps> = ({
       <form>
         <div className='flex'>
           <input
-            className='text-2xl shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+            className='text-2xl shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 disabled:cursor-not-allowed leading-tight focus:outline-none focus:shadow-outline'
             type='number'
             placeholder='当選数'
             defaultValue={totalRandomWins}
+            disabled={hasStartRandom}
             onChange={onChangeTotalTandomWins}
           />
           <span className='text-2xl mx-2'>/</span>
           <input
-            className='text-2xl shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+            className='text-2xl shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 disabled:cursor-not-allowed leading-tight focus:outline-none focus:shadow-outline'
             type='number'
             placeholder='抽選総数'
             defaultValue={totalRandom}
+            disabled={hasStartRandom}
             onChange={onChangeTotalRandom}
           />
         </div>
@@ -171,8 +182,9 @@ const RandomForm: React.VFC<RandomFormProps> = ({
           // スタートしていないとき
           if (hasStartRandom === false) {
             return <button
-              className='w-full bg-blue-500 hover:bg-blue-400 active:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300 text-white font-bold py-2 my-3 px-4 rounded'
+              className='w-full bg-blue-500 hover:bg-blue-400 active:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300 disabled:opacity-75 disabled:cursor-not-allowed text-white font-bold py-2 my-3 px-4 rounded'
               type="button"
+              disabled={!canPushButton}
               onClick={switchRandomStart}
             >
               スタート
