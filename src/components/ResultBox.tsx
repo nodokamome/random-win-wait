@@ -37,14 +37,18 @@ const ResultBox: React.VFC<ResultBoxProps> = ({ resultData, setResultData }) => 
               <td className="px-6 py-4 whitespace-nowrap">
                 {(() => {
                   if (result.result === '当たり') {
-                    return <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-500 text-yellow-50">
-                      {result.result}
-                    </span>
+                    return (
+                      <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-500 text-yellow-50">
+                        {result.result}
+                      </span>
+                    )
                   }
                   else if (result.result === 'キャンセル') {
-                    return <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-400 text-yellow-50">
-                      {result.result}
-                    </span>
+                    return (
+                      <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-400 text-yellow-50">
+                        {result.result}
+                      </span>
+                    )
                   }
                 })()}
               </td>
@@ -66,7 +70,7 @@ const ResultBox: React.VFC<ResultBoxProps> = ({ resultData, setResultData }) => 
           結果リセット
         </button>
       </div>
-      <div className="shadow border-b border-gray-200 sm:rounded-lg">
+      <div className="h-96 overflow-y-auto shadow border-b border-gray-200 sm:rounded-lg">
         <table className="min-w-full divide-y divide-gray-200 table-auto overflow-hidden">
           <thead className="bg-gray-50">
             <tr>
