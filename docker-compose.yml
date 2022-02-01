@@ -1,0 +1,28 @@
+version: "3.5"
+services:
+  random.nodokamome.com:
+    build: .
+    image: random.nodokamome.com
+    container_name: random.nodokamome.com
+    tty: true
+    restart: always
+    volumes:
+      - ./src:/src
+    command: [ sh, -c, npm ci && npm run build && npm run start ]
+    environment:
+      - TZ=Asia/Tokyo
+      - VIRTUAL_HOST=random.nodokamome.com
+      - LETSENCRYPT_HOST=random.nodokamome.com
+      - LETSENCRYPT_EMAIL=mail@nodokamome.com
+    ports:
+      - 3002:3000
+    networks:
+      - proxy-network # プロキシネットワーク
+      - app-network # アプリネットワーク
+
+# プロキシネットワーク、アプリネットワークと接続
+networks:
+  proxy-network:
+    name: proxy_network
+  app-network:
+    name: app_network
