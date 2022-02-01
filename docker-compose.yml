@@ -6,9 +6,7 @@ services:
     container_name: random.nodokamome.com
     tty: true
     restart: always
-    volumes:
-      - ./src:/src
-    command: [ sh, -c, npm ci && npm run build && npm run start ]
+    command: [ sh, -c, npm install && npm run build && npm run start ]
     environment:
       - TZ=Asia/Tokyo
       - VIRTUAL_HOST=random.nodokamome.com
