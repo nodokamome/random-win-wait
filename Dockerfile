@@ -2,11 +2,11 @@
 FROM node:16.13.0
 
 # ディレクトリを移動する
-WORKDIR /src
-
-# node.js の環境変数を定義する
-# 本番環境では production, 開発環境では development
-ENV NODE_ENV=production
+WORKDIR /usr/src/app
 
 # ポート3000番を開放する
 EXPOSE 3000
+
+COPY . .
+
+RUN npm ci && npm run build
