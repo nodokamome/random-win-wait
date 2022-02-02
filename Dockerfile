@@ -9,4 +9,4 @@ EXPOSE 3000
 
 COPY . .
 
-RUN npm ci && npm run build
+RUN npm ci
