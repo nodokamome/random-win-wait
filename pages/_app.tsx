@@ -1,11 +1,12 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import Script from 'next/script'
-import { DefaultSeo, NextSeo } from 'next-seo'
+import { DefaultSeo } from 'next-seo'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
+      <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" />
       <DefaultSeo
         defaultTitle='当たり待ち'
         canonical={process.env.URL}
