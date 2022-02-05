@@ -3,8 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build:dev": "next build && next export && next-sitemap --config next-sitemap.js",
-    "build": "next build",
+    "build": "next build && next export && next-sitemap --config next-sitemap.js",
     "start": "next start",
     "lint": "next lint",
     "lint:style": "stylelint '**/*.{css,scss,sass}'",
