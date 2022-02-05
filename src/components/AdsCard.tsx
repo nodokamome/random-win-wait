@@ -1,6 +1,12 @@
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 
+
+interface Window {
+  adsbygoogle?: { [key: string]: unknown }[];
+}
+declare var window: Window
+
 const AdsCard = () => {
   const { asPath } = useRouter();
 
