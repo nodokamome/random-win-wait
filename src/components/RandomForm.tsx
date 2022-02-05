@@ -107,7 +107,7 @@ const RandomForm: React.VFC<RandomFormProps> = ({
 
   // 当たりのときにlocalStorageに保存する
   useEffect(() => {
-    if (tryTimes > 0) {
+    if (hasWinningRandom) {
       const result = (() => {
         if (resultData) {
           return [
